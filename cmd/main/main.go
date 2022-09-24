@@ -1,6 +1,7 @@
 package main
 
 import (
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/mux"
 	"github.com/maheswaradevo/hacktiv8-assignment3/internal/global/config"
 	"github.com/maheswaradevo/hacktiv8-assignment3/internal/global/router"
