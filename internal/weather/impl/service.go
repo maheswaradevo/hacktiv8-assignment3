@@ -28,7 +28,7 @@ func (w weatherServiceImpl) GetReport(ctx context.Context) (*dto.WeatherResponse
 }
 
 func (w weatherServiceImpl) UpdateValue(ctx context.Context) error {
-	ticker := time.NewTicker(15 * time.Minute)
+	ticker := time.NewTicker(900 * time.Second)
 	quit := make(chan int)
 
 	go func() {
