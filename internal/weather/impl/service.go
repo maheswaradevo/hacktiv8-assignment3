@@ -3,11 +3,11 @@ package impl
 import (
 	"context"
 	"log"
-	"math/rand"
 	"strconv"
 	"time"
 
 	"github.com/maheswaradevo/hacktiv8-assignment3/internal/dto"
+	"github.com/maheswaradevo/hacktiv8-assignment3/internal/utils"
 )
 
 type weatherServiceImpl struct {
@@ -35,11 +35,11 @@ func (w weatherServiceImpl) UpdateValue(ctx context.Context) error {
 		for {
 			select {
 			case <-ticker.C:
-				windValue := randWindValue()
-				waterValue := randWaterValue()
+				windValue := utils.RandWindValue()
+				waterValue := utils.RandWaterValue()
 				windString := strconv.Itoa(int(windValue)) + " m/s"
 				waterString := strconv.Itoa(int(waterValue)) + " m"
-				report := reportWeather(windValue, waterValue)
+				report := utils.ReportWeather(windValue, waterValue)
 
 				err := w.repo.UpdateValue(windString, waterString, report)
 				log.Printf("[UpdateValue] value updated!")
@@ -53,39 +53,4 @@ func (w weatherServiceImpl) UpdateValue(ctx context.Context) error {
 		}
 	}()
 	return nil
-}
-func reportWeather(windValue, waterValue int8) string {
-	report := ""
-	if windValue <= 6 {
-		temp := "aman"
-		report = temp
-	} else if windValue >= 7 && windValue <= 15 {
-		temp := "siaga"
-		report = temp
-	} else if windValue > 15 {
-		temp := "bahaya"
-		report = temp
-	} else if waterValue < 5 {
-		temp := "aman"
-		report = temp
-	} else if waterValue >= 6 && waterValue <= 8 {
-		temp := "siaga"
-		report = temp
-	} else if waterValue > 8 {
-		temp := "bahaya"
-		report = temp
-	}
-	return report
-}
-
-func randWindValue() int8 {
-	rand.Seed(time.Now().UnixMicro())
-	res := rand.Intn((100 - 1) + 1)
-	return int8(res)
-}
-
-func randWaterValue() int8 {
-	rand.Seed(time.Now().UnixNano())
-	res := rand.Intn((100 - 1) + 1)
-	return int8(res)
 }
