@@ -13,7 +13,7 @@ type weatherRepositoryImpl struct {
 }
 
 type WeatherRepository interface {
-	UpdateValue(windValue int8, waterValue int8, report string) error
+	UpdateValue(windValue string, waterValue string, report string) error
 	GetReport(ctx context.Context) (entity.StatusReport, error)
 }
 
@@ -26,7 +26,7 @@ var (
 	GET_REPORT_DATA = "SELECT wind, water, report FROM status"
 )
 
-func (w weatherRepositoryImpl) UpdateValue(windValue int8, waterValue int8, report string) error {
+func (w weatherRepositoryImpl) UpdateValue(windValue string, waterValue string, report string) error {
 	query := UPDATE_DATA
 
 	stmt, err := w.DB.Prepare(query)

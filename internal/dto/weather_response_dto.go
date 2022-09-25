@@ -8,8 +8,8 @@ type WeatherResponse struct {
 }
 
 type Data struct {
-	Wind  int8 `json:"wind"`
-	Water int8 `json:"water"`
+	Wind  string `json:"wind"`
+	Water string `json:"water"`
 }
 
 func CreateWeatherReport(s entity.StatusReport) *WeatherResponse {

@@ -1,8 +1,8 @@
 package entity
 
 type Weather struct {
-	Wind  int8 `db:"wind"`
-	Water int8 `db:"water"`
+	Wind  string `db:"wind"`
+	Water string `db:"water"`
 }
 
 type StatusReport struct {

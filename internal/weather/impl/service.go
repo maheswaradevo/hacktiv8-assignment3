@@ -4,6 +4,7 @@ import (
 	"context"
 	"log"
 	"math/rand"
+	"strconv"
 	"time"
 
 	"github.com/maheswaradevo/hacktiv8-assignment3/internal/dto"
@@ -36,8 +37,11 @@ func (w weatherServiceImpl) UpdateValue(ctx context.Context) error {
 			case <-ticker.C:
 				windValue := randWindValue()
 				waterValue := randWaterValue()
+				windString := strconv.Itoa(int(windValue)) + " m/s"
+				waterString := strconv.Itoa(int(waterValue)) + " m"
 				report := reportWeather(windValue, waterValue)
-				err := w.repo.UpdateValue(windValue, waterValue, report)
+
+				err := w.repo.UpdateValue(windString, waterString, report)
 				log.Printf("[UpdateValue] value updated!")
 				if err != nil {
 					log.Printf("[UpdateValue] failed to update the value")
@@ -52,13 +56,22 @@ func (w weatherServiceImpl) UpdateValue(ctx context.Context) error {
 }
 func reportWeather(windValue, waterValue int8) string {
 	report := ""
-	if windValue < 6 || waterValue < 6 {
+	if windValue <= 6 {
 		temp := "aman"
 		report = temp
-	} else if (windValue < 15 && windValue >= 7) || (waterValue < 8 && waterValue >= 6) {
+	} else if windValue >= 7 && windValue <= 15 {
 		temp := "siaga"
 		report = temp
-	} else if (windValue > 15) || (waterValue > 8) {
+	} else if windValue > 15 {
+		temp := "bahaya"
+		report = temp
+	} else if waterValue < 5 {
+		temp := "aman"
+		report = temp
+	} else if waterValue >= 6 && waterValue <= 8 {
+		temp := "siaga"
+		report = temp
+	} else if waterValue > 8 {
 		temp := "bahaya"
 		report = temp
 	}
