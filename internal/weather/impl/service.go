@@ -28,7 +28,7 @@ func (w weatherServiceImpl) GetReport(ctx context.Context) (*dto.WeatherResponse
 
 func (w weatherServiceImpl) UpdateValue(ctx context.Context) error {
 	ticker := time.NewTicker(15 * time.Minute)
-	quit := make(chan struct{})
+	quit := make(chan int)
 
 	go func() {
 		for {
@@ -38,6 +38,7 @@ func (w weatherServiceImpl) UpdateValue(ctx context.Context) error {
 				waterValue := randWaterValue()
 				report := reportWeather(windValue, waterValue)
 				err := w.repo.UpdateValue(windValue, waterValue, report)
+				log.Printf("[UpdateValue] value updated!")
 				if err != nil {
 					log.Printf("[UpdateValue] failed to update the value")
 				}
